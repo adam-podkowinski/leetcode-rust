@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use crate::Solution;
 use std::collections::HashSet;
 
@@ -8,10 +9,10 @@ impl Solution {
         let mut row_sets: Vec<HashSet<u32>> = vec![HashSet::with_capacity(9); 9];
         let mut block_set: HashSet<u32> = HashSet::with_capacity(9);
 
-        // Check row nad column rule
+        // Check row and column rule
         for (i, row) in board.iter().enumerate() {
-            for (j, ch) in row.iter().enumerate() {
-                if *ch == '.' {
+            for (j, &ch) in row.iter().enumerate() {
+                if ch == '.' {
                     continue;
                 }
                 let num = ch.to_digit(10).unwrap();
@@ -31,13 +32,7 @@ impl Solution {
                 let block: Vec<u32> = block
                     .concat()
                     .iter()
-                    .filter_map(|x| {
-                        if *x == '.' {
-                            None
-                        } else {
-                            x.to_digit(10)
-                        }
-                    })
+                    .filter_map(|x| if *x == '.' { None } else { x.to_digit(10) })
                     .collect();
                 for n in block {
                     if !block_set.insert(n) {
